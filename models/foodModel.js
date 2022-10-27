@@ -21,13 +21,11 @@ const foodSchema = new mongoose.Schema({
   },
   consumedAt: {
     type: Date,
-    required: [true, 'A food must have a consumedAt'],
+    default: Date.now(),
   },
 });
 
 foodSchema.index({ createdBy: 1, consumedAt: -1 });
-
-// TODO: Populate user data on the food object????
 
 const Food = mongoose.model('Food', foodSchema);
 module.exports = Food;
