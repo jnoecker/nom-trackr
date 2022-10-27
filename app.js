@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/appError');
 const userRouter = require('./routes/userRoutes');
+const foodRouter = require('./routes/foodRoutes');
 const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
@@ -68,8 +69,8 @@ app.use(xss());
 // Static Files
 app.use(express.static(path.join(`${__dirname}`, `public`)));
 
-// TODO: Add top level routing
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/foods', foodRouter);
 
 // Handle invalid URLs
 app.all('*', (req, res, next) => {
