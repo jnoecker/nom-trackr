@@ -21,6 +21,8 @@ router.get('/me', userController.getMe, userController.getUser);
 router.patch('/updateMe', userController.updateMe);
 router.delete('/deleteMe', userController.deleteMe);
 
+router.post('/inviteFriend', authController.inviteUser);
+
 /******************
  ** Admin Routes **
  ******************/

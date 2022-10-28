@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const generator = require('generate-password');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
@@ -38,6 +39,57 @@ const createAndSendToken = (user, statusCode, res) => {
     },
   });
 };
+
+exports.inviteUser = catchAsync(async (req, res, next) => {
+  const referralName = req.body.name;
+  const referralEmail = req.body.email;
+  console.log(req.body);
+
+  // 1) Check if email and password exist
+  if (!referralName || !referralEmail) {
+    return next(
+      new AppError('Please provide name and email to invite a friend', 400)
+    );
+  }
+
+  const referralPassword = generator.generate({ length: 10, numbers: true });
+  const newUser = await User.create({
+    name: referralName,
+    email: referralEmail,
+    password: referralPassword,
+    passwordConfirm: referralPassword,
+    passwordChangedAt: Date.now() - 1000,
+  });
+
+  if (!newUser) {
+    return new AppError('Failed to invite user, please try again later');
+  }
+
+  const referralJWT = signToken(newUser.id);
+  const loginURL = `${req.protocol}://${req.get('host')}/api/v1/users/login`;
+  const message = `Your friend, ${req.user.name}, has invited you to join NomTrackr!  To sign in, please use your email address ${referralEmail} with password ${referralPassword} and send a POST to ${loginURL} or use this handy JWT token:\n ${referralJWT} `;
+
+  try {
+    await sendEmail({
+      to: referralEmail,
+      email: referralEmail,
+      subject: "You've been invited to join NomTrackr!",
+      message,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Invitation Sent!',
+    });
+  } catch (exception) {
+    return next(
+      new AppError(
+        'There was an error sending the email.  Please contact an administrator for assistance',
+        500
+      )
+    );
+  }
+});
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
