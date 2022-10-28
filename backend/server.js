@@ -13,7 +13,7 @@ process.on('unhandledRejection', (err) => {
   process.exit(1);
 });
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: './.env' });
 const app = require('./app');
 
 const DB = process.env.DATABASE.replace(
