@@ -43,3 +43,71 @@ exports.getAFood = handlerFactory.getOne(Food);
 exports.createAFood = handlerFactory.createOne(Food);
 exports.updateAFood = handlerFactory.updateOne(Food);
 exports.deleteAFood = handlerFactory.deleteOne(Food);
+
+// TODO: Clarify whether we should use `createdAt` or `consumedAt` for these statistics.
+exports.getFoodStats = catchAsync(async (req, res, next) => {
+  /*
+   * Calculate stats for current week
+   */
+  console.log(1);
+  const endDate = new Date(Date.now());
+  endDate.setHours(24, 0, 0, 0); // The midnight tomorrow (dates strictly less than this occur on or before today).
+
+  const startDate = new Date(endDate.getTime());
+  startDate.setDate(startDate.getDate() - 7);
+
+  console.log(startDate);
+  console.log(endDate);
+  const currentWeekFoodStats = await Food.aggregate([
+    { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+    {
+      $group: {
+        _id: null,
+        totalFoodsAdded: { $sum: 1 },
+        totalCaloriesAdded: { $sum: '$calories' },
+      },
+    },
+  ]);
+  console.log(3);
+  const currentWeekActiveUsers = await Food.aggregate([
+    { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+
+    { $group: { _id: '$createdBy' } },
+    { $group: { _id: 1, count: { $sum: 1 } } },
+  ]);
+  console.log(4);
+  /*
+   * Calculate stats for previous week
+   */
+  endDate.setDate(endDate.getDate() - 7);
+  startDate.setDate(startDate.getDate() - 7);
+  console.log(5);
+  const previousWeekFoodStats = await Food.aggregate([
+    { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+    {
+      $group: {
+        _id: null,
+        totalFoodsAdded: { $sum: 1 },
+        totalCaloriesAdded: { $sum: '$calories' },
+      },
+    },
+  ]);
+  console.log(6);
+  const previousWeekActiveUsers = await Food.aggregate([
+    { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+
+    { $group: { _id: '$createdBy' } },
+    { $group: { _id: 1, count: { $sum: 1 } } },
+  ]);
+  console.log(7);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      currentWeekFoodStats,
+      currentWeekActiveUsers,
+      previousWeekFoodStats,
+      previousWeekActiveUsers,
+    },
+  });
+});

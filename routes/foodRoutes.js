@@ -26,6 +26,8 @@ router
   .get(foodController.getAllFoods)
   .post(foodController.createAFood);
 
+router.route('/admin/stats').get(foodController.getFoodStats);
+
 router
   .route('/admin/:id')
   .get(foodController.getAFood)
