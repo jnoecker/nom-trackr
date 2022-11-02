@@ -7,6 +7,7 @@ const foodSchema = new mongoose.Schema({
   },
   calories: {
     type: Number,
+    min: [0, 'Calories cannot be negative'],
     required: [true, 'Calories is a required field'],
   },
   createdAt: {
