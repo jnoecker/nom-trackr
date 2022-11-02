@@ -53,7 +53,7 @@ const FoodLog = ({ myFoods, setMyFoods }) => {
   };
 
   return (
-    <div className="mb-5">
+    <div>
       <Form>
         <Row>
           <Col>
@@ -83,27 +83,36 @@ const FoodLog = ({ myFoods, setMyFoods }) => {
           Get My Foods
         </Button>
       </div>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Date Consumed</th>
-            <th>Food Name</th>
-            <th>Calories</th>
-          </tr>
-        </thead>
-        <tbody>
-          {myFoods.map((food) => (
-            <tr key={food._id}>
-              <FoodLogEntry
-                consumedAt={food.consumedAt}
-                foodName={food.name}
-                calories={food.calories}
-              />
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <AddFood myFoods={myFoods} setMyFoods={setMyFoods} />
+      <div className="mb-5">
+        <div
+          className="overflow-auto"
+          style={{ maxHeight: '30rem', overflow: 'scroll' }}
+        >
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Date Consumed</th>
+                <th>Food Name</th>
+                <th>Calories</th>
+              </tr>
+            </thead>
+            <tbody>
+              {myFoods.map((food) => (
+                <tr key={food._id}>
+                  <FoodLogEntry
+                    consumedAt={food.consumedAt}
+                    foodName={food.name}
+                    calories={food.calories}
+                  />
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+        <div>
+          <AddFood myFoods={myFoods} setMyFoods={setMyFoods} />
+        </div>
+      </div>
     </div>
   );
 };

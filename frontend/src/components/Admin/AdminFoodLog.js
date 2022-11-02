@@ -84,30 +84,35 @@ const AdminFoodLog = ({ user }) => {
           Get All Foods
         </Button>
       </div>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Food ID</th>
-            <th>Created By User</th>
-            <th>Date Consumed</th>
-            <th>Food Name</th>
-            <th>Calories</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allFoods.map((food) => (
-            <tr key={food._id}>
-              <AdminFoodLogEntry
-                food={food}
-                allFoods={allFoods}
-                setAllFoods={setAllFoods}
-              />
+      <div
+        className="overflow-auto"
+        style={{ maxHeight: '30rem', overflow: 'scroll' }}
+      >
+        <Table striped bordered hover responsive>
+          <thead>
+            <tr>
+              <th>Food ID</th>
+              <th>Created By User</th>
+              <th>Date Consumed</th>
+              <th>Food Name</th>
+              <th>Calories</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {allFoods.map((food) => (
+              <tr key={food._id}>
+                <AdminFoodLogEntry
+                  food={food}
+                  allFoods={allFoods}
+                  setAllFoods={setAllFoods}
+                />
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
       <AdminAddFood user={user} allFoods={allFoods} setAllFoods={setAllFoods} />
     </div>
   );

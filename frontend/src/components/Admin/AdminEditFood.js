@@ -92,11 +92,12 @@ const AdminEditFood = ({ food, allFoods, setAllFoods }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="createdBy">
-              <Form.Label>Created By</Form.Label>
+              <Form.Label>Food ID</Form.Label>
               <Form.Control
                 type="text"
                 value={foodId}
                 onChange={handleChangeFoodId}
+                disabled
               />
               <Form.Text className="text-muted">
                 The ID of the food to be edited.
