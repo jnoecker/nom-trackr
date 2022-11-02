@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 
-const AdminEditFood = () => {
-  const [foodId, setFoodId] = useState('');
-  const [newFoodName, setNewFoodName] = useState('');
-  const [createdBy, setCreatedBy] = useState('');
-  const [newFoodCalories, setnewFoodCalories] = useState(0);
+const AdminEditFood = ({ food, allFoods, setAllFoods }) => {
+  const [show, setShow] = useState(false);
+  const [foodId, setFoodId] = useState(food._id);
+  const [newFoodName, setNewFoodName] = useState(food.name);
+  const [createdBy, setCreatedBy] = useState(food.createdBy);
+  const [newFoodCalories, setnewFoodCalories] = useState(food.calories);
   const [newFoodDateConsumed, setNewFoodDateConsumed] = useState(
-    moment().format('YYYY-MM-DD')
+    food.consumedAt.replace(/T.*/, '')
   );
 
   const handleChangeNewFoodName = ({ target }) => {
@@ -33,7 +37,6 @@ const AdminEditFood = () => {
 
   const handleEditFood = async () => {
     const createdTime = new Date(moment(newFoodDateConsumed));
-    createdTime.setHours(12);
     try {
       const res = await axios({
         method: 'PATCH',
@@ -51,7 +54,13 @@ const AdminEditFood = () => {
       if (res.data.status === 'success') {
         alert('Successfully edited food');
         console.log('Edited Food');
-        console.log(res.data.data);
+        console.log(res.data.data.data);
+        handleHide();
+
+        const newFoods = [...allFoods];
+        const index = allFoods.findIndex((food) => food._id === foodId);
+        newFoods[index] = res.data.data.data;
+        setAllFoods(newFoods);
       } else {
       }
     } catch (error) {
@@ -60,41 +69,83 @@ const AdminEditFood = () => {
     }
   };
 
+  const handleShow = () => setShow(true);
+  const handleHide = () => setShow(false);
+
   return (
-    <form>
-      <input
-        type="date"
-        value={newFoodDateConsumed}
-        onChange={handleChangeDate}
-      />
-      <input
-        type="text"
-        name="foodId"
-        value={foodId}
-        onChange={handleChangeFoodId}
-      />
-      <input
-        type="text"
-        name="createdBy"
-        value={createdBy}
-        onChange={handleChangeCreatedBy}
-      />
-      <input
-        type="text"
-        name="foodNameToEdit"
-        value={newFoodName}
-        onChange={handleChangeNewFoodName}
-      />
-      <input
-        type="text"
-        name="caloriesToEdit"
-        value={newFoodCalories}
-        onChange={handleChangeNewFoodCalories}
-      />
-      <button type="button" onClick={handleEditFood}>
-        Edit Food
-      </button>
-    </form>
+    <>
+      <div className="d-flex justify-content-end">
+        <Button variant="secondary" onClick={handleShow}>
+          Edit
+        </Button>
+      </div>
+      <Modal show={show} onHide={handleHide} size="lg" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>(ADMIN) Edit Food Entry</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="consumedAt">
+              <Form.Label>Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={newFoodDateConsumed}
+                onChange={handleChangeDate}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="createdBy">
+              <Form.Label>Created By</Form.Label>
+              <Form.Control
+                type="text"
+                value={foodId}
+                onChange={handleChangeFoodId}
+              />
+              <Form.Text className="text-muted">
+                The ID of the food to be edited.
+              </Form.Text>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="createdBy">
+              <Form.Label>Created By</Form.Label>
+              <Form.Control
+                type="text"
+                value={createdBy}
+                onChange={handleChangeCreatedBy}
+              />
+              <Form.Text className="text-muted">
+                Update the User ID for the food entry.
+              </Form.Text>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="foodNameToAdd">
+              <Form.Label>Food Name</Form.Label>
+              <Form.Control
+                type="text"
+                value={newFoodName}
+                onChange={handleChangeNewFoodName}
+              />
+              <Form.Text className="text-muted">
+                Update the name of the food entry.
+              </Form.Text>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="caloriesToAdd">
+              <Form.Label>Calories</Form.Label>
+              <Form.Control
+                type="number"
+                value={newFoodCalories}
+                onChange={handleChangeNewFoodCalories}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleHide}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleEditFood}>
+            Save Food
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
