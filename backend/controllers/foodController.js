@@ -65,7 +65,6 @@ exports.getCaloriesPerDay = catchAsync(async (req, res, next) => {
   });
 });
 
-// TODO: Clarify whether we should use `createdAt` or `consumedAt` for these statistics.
 exports.getFoodStats = catchAsync(async (req, res, next) => {
   /*
    * Calculate stats for current week
@@ -80,7 +79,7 @@ exports.getFoodStats = catchAsync(async (req, res, next) => {
   console.log(startDate);
   console.log(endDate);
   const currentWeekFoodStats = await Food.aggregate([
-    { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+    { $match: { consumedAt: { $gte: startDate, $lt: endDate } } },
     {
       $group: {
         _id: null,
@@ -91,7 +90,7 @@ exports.getFoodStats = catchAsync(async (req, res, next) => {
   ]);
   console.log(3);
   const currentWeekActiveUsers = await Food.aggregate([
-    { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+    { $match: { consumedAt: { $gte: startDate, $lt: endDate } } },
 
     { $group: { _id: '$createdBy' } },
     { $group: { _id: 1, count: { $sum: 1 } } },
@@ -106,7 +105,7 @@ exports.getFoodStats = catchAsync(async (req, res, next) => {
   console.log(startDate);
   console.log(endDate);
   const previousWeekFoodStats = await Food.aggregate([
-    { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+    { $match: { consumedAt: { $gte: startDate, $lt: endDate } } },
     {
       $group: {
         _id: null,
@@ -117,7 +116,7 @@ exports.getFoodStats = catchAsync(async (req, res, next) => {
   ]);
   console.log(6);
   const previousWeekActiveUsers = await Food.aggregate([
-    { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+    { $match: { consumedAt: { $gte: startDate, $lt: endDate } } },
 
     { $group: { _id: '$createdBy' } },
     { $group: { _id: 1, count: { $sum: 1 } } },

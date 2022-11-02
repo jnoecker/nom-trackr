@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
+import moment from 'moment';
 import AdminEditFood from './AdminEditFood';
 
 const AdminFoodLogEntry = ({ food, allFoods, setAllFoods }) => {
@@ -26,7 +27,7 @@ const AdminFoodLogEntry = ({ food, allFoods, setAllFoods }) => {
     <>
       <th>{_id}</th>
       <th>{createdBy}</th>
-      <th> {consumedAt.replace(/T.*/, '')}</th>
+      <th>{moment(consumedAt).format('YYYY-MM-DD hh:mm a')}</th>
       <th className="text-capitalize">{name}</th>
       <th>{calories}</th>
       <th>
