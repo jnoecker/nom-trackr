@@ -37,27 +37,19 @@ const AdminStats = () => {
     getData();
   }, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    getData();
-  };
-
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <button>Get Stats</button>
-      </form>
-      <p>
+    <>
+      <p className="text-center">
         This Week: {thisWeekUsers} users added {thisWeekFoods} foods. Total
         Calories: {thisWeekCalories} (Average:{' '}
         {thisWeekCalories / thisWeekUsers} calories per user)
       </p>
-      <p>
+      <p className="text-center">
         This Week: {lastWeekUsers} users added {lastWeekFoods} foods. Total
         Calories: {lastWeekCalories} (Average:{' '}
         {lastWeekCalories / lastWeekUsers} calories per user)
       </p>
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const LogoutButton = ({ setUser }) => {
+const LogoutButton = ({ user, setUser }) => {
   const logout = async () => {
     try {
       const res = await axios({
@@ -18,7 +18,11 @@ const LogoutButton = ({ setUser }) => {
     }
   };
 
-  return <button onClick={logout}>Logout</button>;
+  return user ? (
+    <button onClick={logout}>Logout</button>
+  ) : (
+    <button onClick={logout}>Login</button>
+  );
 };
 
 export default LogoutButton;

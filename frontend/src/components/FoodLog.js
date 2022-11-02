@@ -2,11 +2,16 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 import axios from 'axios';
 import FoodLogEntry from './FoodLogEntry';
+import AddFood from './AddFood';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Table from 'react-bootstrap/Table';
 
-const FoodLog = () => {
+const FoodLog = ({ myFoods, setMyFoods }) => {
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
   const [endDate, setEndDate] = useState(moment().format('YYYY-MM-DD'));
-  const [myFoods, setMyFoods] = useState([]);
 
   const handleChangeStartDate = ({ target }) => {
     setStartDate(target.value);
@@ -37,43 +42,72 @@ const FoodLog = () => {
       setMyFoods(res.data.data);
     } catch (error) {
       // Handle error
+      // TODO: AlertError
+      console.log(error);
     }
   };
 
   useEffect(() => {
     getData();
   }, []);
+
   const handleSubmitDates = async (event) => {
     event.preventDefault();
     getData();
   };
 
   return (
-    <div>
-      <form>
-        <input type="date" value={startDate} onChange={handleChangeStartDate} />
-        <input type="date" value={endDate} onChange={handleChangeEndDate} />
-        <button onClick={handleSubmitDates}>Get My Foods</button>
-      </form>
-      <h2>My Foods:</h2>
-      <ul type="none" style={{ marginBottom: '150px' }}>
-        {myFoods.map((food) => (
-          <li
-            key={food._id}
-            style={{
-              marginBottom: '5px',
-              justifyContent: 'left',
-              border: '1px',
-            }}
-          >
-            <FoodLogEntry
-              consumedAt={food.consumedAt}
-              foodName={food.name}
-              calories={food.calories}
-            />
-          </li>
-        ))}
-      </ul>
+    <div className="mb-5">
+      <Form>
+        <Row>
+          <Col>
+            <Form.Group className="mb-3" controlId="startDate">
+              <Form.Label>Start Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={startDate}
+                onChange={handleChangeStartDate}
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group className="mb-3" controlId="endDate">
+              <Form.Label>End Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={endDate}
+                onChange={handleChangeEndDate}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+      </Form>
+      <div className="d-flex justify-content-end mb-5">
+        <Button variant="primary" onClick={handleSubmitDates}>
+          Get My Foods
+        </Button>
+      </div>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Date Consumed</th>
+            <th>Food Name</th>
+            <th>Calories</th>
+          </tr>
+        </thead>
+        <tbody>
+          {myFoods.map((food) => (
+            <tr key={food._id}>
+              <FoodLogEntry
+                consumedAt={food.consumedAt}
+                foodName={food.name}
+                calories={food.calories}
+              />
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      <AddFood myFoods={myFoods} setMyFoods={setMyFoods} />
     </div>
   );
 };

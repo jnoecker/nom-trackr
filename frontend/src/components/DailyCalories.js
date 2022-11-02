@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Table from 'react-bootstrap/Table';
+import Badge from 'react-bootstrap/Badge';
 
-const DailyCalories = () => {
+const DailyCalories = ({ user, myFoods }) => {
   const [dailyCalories, setDailyCalories] = useState([]);
 
   const getData = async () => {
@@ -18,32 +20,46 @@ const DailyCalories = () => {
         setDailyCalories(data.caloriesPerDay);
       }
     } catch (error) {
+      // TODO: AlertError
+      alert('Failed to load daily calories');
       // Handle error
     }
   };
 
   useEffect(() => {
     getData();
-  }, []);
-
-  const handleClick = async (event) => {
-    event.preventDefault();
-    getData();
-  };
+  }, [myFoods]);
 
   return (
-    <div>
-      <button onClick={handleClick}>Get Daily Calories</button>
-      <ul>
-        {dailyCalories.map((day) => {
-          return (
-            <li key={day._id}>
-              {day._id} {day.count}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Total Calories</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dailyCalories.map((day) => {
+            return (
+              <tr key={day._id}>
+                <th>{day._id}</th>
+                <th>
+                  {day.count}{' '}
+                  {day.count <= user?.dailyCalorieLimit ? (
+                    ''
+                  ) : (
+                    <Badge pill bg="danger">
+                      High
+                    </Badge>
+                  )}
+                </th>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+    </>
   );
 };
 

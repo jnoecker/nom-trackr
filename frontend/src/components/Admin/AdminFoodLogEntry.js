@@ -1,26 +1,21 @@
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import AdminEditFood from './AdminEditFood';
 
-const AdminFoodLogEntry = ({
-  createdBy,
-  consumedAt,
-  foodId,
-  foodName,
-  calories,
-  allFoods,
-  setAllFoods,
-}) => {
+const AdminFoodLogEntry = ({ food, allFoods, setAllFoods }) => {
+  const { createdBy, consumedAt, _id, name, calories } = food;
   const handleDelete = async () => {
     try {
       await axios({
         method: 'DELETE',
-        url: `http://localhost:3000/api/v1/foods/admin/${foodId}`,
+        url: `http://localhost:3000/api/v1/foods/admin/${_id}`,
         withCredentials: true,
       });
 
       setAllFoods(
-        allFoods.filter((food) => {
-          console.log(food);
-          return food._id !== foodId;
+        allFoods.filter((one) => {
+          console.log(one);
+          return one._id !== _id;
         })
       );
     } catch (error) {
@@ -28,10 +23,25 @@ const AdminFoodLogEntry = ({
     }
   };
   return (
-    <p>
-      {foodId} {createdBy} {consumedAt.replace(/T.*/, '')} {foodName} {calories}{' '}
-      <button onClick={handleDelete}>Delete</button>
-    </p>
+    <>
+      <th>{_id}</th>
+      <th>{createdBy}</th>
+      <th> {consumedAt.replace(/T.*/, '')}</th>
+      <th className="text-capitalize">{name}</th>
+      <th>{calories}</th>
+      <th>
+        <AdminEditFood
+          food={food}
+          allFoods={allFoods}
+          setAllFoods={setAllFoods}
+        />
+      </th>
+      <th>
+        <Button variant="danger" onClick={handleDelete}>
+          Delete
+        </Button>
+      </th>
+    </>
   );
 };
 
