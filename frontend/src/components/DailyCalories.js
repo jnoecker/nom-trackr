@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
+import toast from 'react-hot-toast';
 
 const DailyCalories = ({ user, myFoods }) => {
   const [dailyCalories, setDailyCalories] = useState([]);
@@ -19,9 +20,7 @@ const DailyCalories = ({ user, myFoods }) => {
         setDailyCalories(data.caloriesPerDay);
       }
     } catch (error) {
-      // TODO: AlertError
-      alert('Failed to load daily calories');
-      // Handle error
+      toast.error('Failed to load daily calories');
     }
   };
 

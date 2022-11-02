@@ -4,6 +4,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import toast from 'react-hot-toast';
 
 const AdminAddFood = ({ user, allFoods, setAllFoods }) => {
   const [show, setShow] = useState(false);
@@ -47,13 +48,12 @@ const AdminAddFood = ({ user, allFoods, setAllFoods }) => {
 
       if (res.data.status === 'success') {
         const newFood = res.data.data;
-        alert('Successfully added food');
+        toast.success('Successfully added food');
         setAllFoods([newFood, ...allFoods]);
       } else {
       }
     } catch (error) {
-      // TODO: AlertError
-      alert('Failed to add food');
+      toast.error('Failed to add food');
     }
     handleHide();
   };

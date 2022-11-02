@@ -3,6 +3,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import toast from 'react-hot-toast';
 
 const InviteFriend = () => {
   const [name, setName] = useState();
@@ -31,13 +32,12 @@ const InviteFriend = () => {
       });
 
       if (res.data.status === 'success') {
-        alert('Invitation Successful');
+        toast.success('Invitation Successful');
         handleHide();
       } else {
       }
     } catch (error) {
-      // TODO: AlertError
-      alert('Failed to invite friend');
+      toast.error('Failed to invite friend');
     }
   };
 

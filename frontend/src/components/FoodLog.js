@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
+import toast from 'react-hot-toast';
 
 const FoodLog = ({ myFoods, setMyFoods }) => {
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
@@ -38,9 +39,7 @@ const FoodLog = ({ myFoods, setMyFoods }) => {
 
       setMyFoods(res.data.data);
     } catch (error) {
-      // Handle error
-      // TODO: AlertError
-      alert('Error fetching food journal');
+      toast.error('Error fetching food journal');
     }
   };
 

@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
 import LoggedOutPage from './pages/LoggedOutPage';
@@ -20,6 +21,9 @@ function App() {
 
   return (
     <Router>
+      <div>
+        <Toaster position="top-center" reverseOrder={true} />
+      </div>
       <NavBar user={user} setUser={setUser} />
       <div>
         <Switch>

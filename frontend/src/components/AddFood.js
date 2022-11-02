@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import '../App.css';
+import toast from 'react-hot-toast';
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -110,8 +111,7 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
       setNewFoodName(foodName);
       setnewFoodCalories(calories);
     } catch (error) {
-      // TODO: AlertError
-      alert('Error fetching nutrition information from database');
+      toast.error('Error fetching nutrition information from database');
     }
   };
 
@@ -149,8 +149,7 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
       setNewFoodName(foodName);
       setnewFoodCalories(calories);
     } catch (error) {
-      // TODO: AlertError
-      alert('Error fetching nutrition information from database');
+      toast.error('Error fetching nutrition information from database');
     }
   };
 
@@ -188,16 +187,14 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
 
       if (res.data.status === 'success') {
         const newFood = res.data.data;
-        alert('Successfully added food');
+        toast.success('Successfully added food');
         setMyFoods([newFood, ...myFoods]);
         handleHide();
       } else {
-        // TODO: AlertError
-        alert('Failed to add food');
+        toast.error('Failed to add food');
       }
     } catch (error) {
-      // TODO: AlertError
-      alert('Failed to add food');
+      toast.error('Failed to Add Food');
     }
   };
 

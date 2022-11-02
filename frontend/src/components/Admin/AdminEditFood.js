@@ -4,6 +4,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import toast from 'react-hot-toast';
 
 const AdminEditFood = ({ food, allFoods, setAllFoods }) => {
   const [show, setShow] = useState(false);
@@ -52,7 +53,7 @@ const AdminEditFood = ({ food, allFoods, setAllFoods }) => {
       });
 
       if (res.data.status === 'success') {
-        alert('Successfully edited food');
+        toast.success('Successfully edited food');
         handleHide();
 
         const newFoods = [...allFoods];
@@ -62,8 +63,7 @@ const AdminEditFood = ({ food, allFoods, setAllFoods }) => {
       } else {
       }
     } catch (error) {
-      // TODO: AlertError
-      alert('Failed to edit food');
+      toast.error('Failed to edit food');
     }
   };
 

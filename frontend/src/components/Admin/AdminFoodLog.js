@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
+import toast from 'react-hot-toast';
 
 const AdminFoodLog = ({ user }) => {
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
@@ -39,8 +40,7 @@ const AdminFoodLog = ({ user }) => {
 
       setAllFoods(res.data.data);
     } catch (error) {
-      // TODO: AlertError
-      alert('Error fetching admin food log data');
+      toast.error('Error fetching admin food log data');
     }
   };
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import toast from 'react-hot-toast';
 
 const LoginBox = ({ user, setUser }) => {
   const [userName, setUserName] = useState('');
@@ -31,8 +32,7 @@ const LoginBox = ({ user, setUser }) => {
         history.go(0);
       }
     } catch (error) {
-      // TODO: AlertError
-      alert('Failed to Log In');
+      toast.error('Failed to Log In');
     }
   };
 
@@ -50,8 +50,7 @@ const LoginBox = ({ user, setUser }) => {
         history.go(0);
       }
     } catch (err) {
-      // TODO: AlertError
-      alert('Error logging out');
+      toast.error('Error logging out');
     }
   };
 
