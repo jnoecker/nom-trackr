@@ -10,36 +10,38 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 const NavBar = ({ user, setUser }) => {
   return (
-    <Navbar bg="light" expand="lg" sticky="top" className="mb-5">
-      <Container>
-        <LinkContainer to="/">
-          <Navbar.Brand>Nom Trackr</Navbar.Brand>
-        </LinkContainer>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <LinkContainer to="/">
-              <Nav.Link>Home</Nav.Link>
-            </LinkContainer>
-            {user && user.role === 'admin' && (
-              <LinkContainer to="/admin">
-                <Nav.Link>Admin</Nav.Link>
+    <Container>
+      <Navbar bg="light" expand="lg" sticky="top" className="mb-5">
+        <Container>
+          <LinkContainer to="/">
+            <Navbar.Brand>Nom Trackr</Navbar.Brand>
+          </LinkContainer>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <LinkContainer to="/">
+                <Nav.Link>Home</Nav.Link>
               </LinkContainer>
-            )}
+              {user && user.role === 'admin' && (
+                <LinkContainer to="/admin">
+                  <Nav.Link>Admin</Nav.Link>
+                </LinkContainer>
+              )}
+            </Nav>
+          </Navbar.Collapse>
+          <Nav>
+            <ButtonToolbar>
+              <ButtonGroup className="me-2">
+                {user && <InviteFriend />}
+              </ButtonGroup>
+              <ButtonGroup className="me-2">
+                <LogInOutButton user={user} setUser={setUser} />
+              </ButtonGroup>
+            </ButtonToolbar>
           </Nav>
-        </Navbar.Collapse>
-        <Nav>
-          <ButtonToolbar>
-            <ButtonGroup className="me-2">
-              {user && <InviteFriend />}
-            </ButtonGroup>
-            <ButtonGroup className="me-2">
-              <LogInOutButton user={user} setUser={setUser} />
-            </ButtonGroup>
-          </ButtonToolbar>
-        </Nav>
-      </Container>
-    </Navbar>
+        </Container>
+      </Navbar>
+    </Container>
   );
 };
 
