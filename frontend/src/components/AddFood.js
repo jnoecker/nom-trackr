@@ -9,6 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
   const MIN_MS_BETWEEN_CALLS = 500;
@@ -87,7 +88,9 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
     }
   };
 
-  const handleClickCommon = async ({ target }) => {
+  const handleClickCommon = async (event) => {
+    event.preventDefault();
+    const { target } = event;
     const foodName = target.getAttribute('food-name');
     const foodId = target.getAttribute('food-id');
 
@@ -125,7 +128,8 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
     hideAutoCompleteOverlay();
   };
 
-  const handleClickBranded = async ({ target }) => {
+  const handleClickBranded = async (event) => {
+    const { target } = event;
     const foodName = target.getAttribute('food-name');
     const foodId = target.getAttribute('food-id');
 
@@ -263,18 +267,14 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
                 }}
               >
                 <h2>Common Foods:</h2>
-                <ul type="none" style={{ marginBottom: '150px' }}>
+                <ListGroup className="mb-3">
                   {autoSuggestionsCommon.map((food) => (
-                    <li
+                    <ListGroup.Item
+                      action
+                      onClick={handleClickCommon}
                       food-name={food.food_name}
                       key={food.food_name}
                       food-id={food.food_name}
-                      onClick={handleClickCommon}
-                      style={{
-                        marginBottom: '5px',
-                        justifyContent: 'left',
-                        border: '1px',
-                      }}
                     >
                       <img
                         src={food.photo.thumb}
@@ -286,32 +286,32 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
                         style={{ marginRight: '5px' }}
                       />
                       {food.food_name}
-                    </li>
+                    </ListGroup.Item>
                   ))}
-                </ul>
+                </ListGroup>
                 <h2>Branded Foods:</h2>
-                <ul type="none" style={{ marginBottom: '40px' }}>
+                <ListGroup>
                   {autoSuggestionsBranded.map((food) => (
-                    <li
+                    <ListGroup.Item
+                      action
                       food-name={food.food_name}
                       key={food.food_name}
                       food-id={food.nix_item_id}
                       onClick={handleClickBranded}
-                      style={{ marginBottom: '5px' }}
                     >
                       <img
                         src={food.photo.thumb}
                         alt={food.food_name}
                         food-name={food.food_name}
-                        food-id={food.nix_item_id}
+                        food-id={food.food_name}
                         width="30px"
                         height="30px"
                         style={{ marginRight: '5px' }}
                       />
                       {food.food_name}
-                    </li>
+                    </ListGroup.Item>
                   ))}
-                </ul>
+                </ListGroup>
               </div>
             </Row>
           </Form>
