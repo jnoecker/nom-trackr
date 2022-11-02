@@ -7,7 +7,6 @@ const handlerFactory = require('./handlerFactory');
  ** User Functions **
  ********************/
 exports.createMyFood = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   req.body.createdBy = req.user.id;
   req.body = { ...req.body, createdBy: req.user.id };
   const food = await Food.create(req.body);
@@ -69,15 +68,12 @@ exports.getFoodStats = catchAsync(async (req, res, next) => {
   /*
    * Calculate stats for current week
    */
-  console.log(1);
   const endDate = new Date(Date.now());
   endDate.setHours(24, 0, 0, 0); // The midnight tomorrow (dates strictly less than this occur on or before today).
 
   const startDate = new Date(endDate.getTime());
   startDate.setDate(startDate.getDate() - 7);
 
-  console.log(startDate);
-  console.log(endDate);
   const currentWeekFoodStats = await Food.aggregate([
     { $match: { consumedAt: { $gte: startDate, $lt: endDate } } },
     {
@@ -88,22 +84,17 @@ exports.getFoodStats = catchAsync(async (req, res, next) => {
       },
     },
   ]);
-  console.log(3);
   const currentWeekActiveUsers = await Food.aggregate([
     { $match: { consumedAt: { $gte: startDate, $lt: endDate } } },
 
     { $group: { _id: '$createdBy' } },
     { $group: { _id: 1, count: { $sum: 1 } } },
   ]);
-  console.log(4);
   /*
    * Calculate stats for previous week
    */
   endDate.setDate(endDate.getDate() - 7);
   startDate.setDate(startDate.getDate() - 7);
-  console.log(5);
-  console.log(startDate);
-  console.log(endDate);
   const previousWeekFoodStats = await Food.aggregate([
     { $match: { consumedAt: { $gte: startDate, $lt: endDate } } },
     {
@@ -114,14 +105,12 @@ exports.getFoodStats = catchAsync(async (req, res, next) => {
       },
     },
   ]);
-  console.log(6);
   const previousWeekActiveUsers = await Food.aggregate([
     { $match: { consumedAt: { $gte: startDate, $lt: endDate } } },
 
     { $group: { _id: '$createdBy' } },
     { $group: { _id: 1, count: { $sum: 1 } } },
   ]);
-  console.log(7);
 
   res.status(200).json({
     status: 'success',

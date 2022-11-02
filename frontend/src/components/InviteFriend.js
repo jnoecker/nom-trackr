@@ -30,8 +30,6 @@ const InviteFriend = () => {
         },
       });
 
-      console.log(res);
-
       if (res.data.status === 'success') {
         alert('Invitation Successful');
         handleHide();
@@ -39,7 +37,6 @@ const InviteFriend = () => {
       }
     } catch (error) {
       // TODO: AlertError
-      console.log(error);
       alert('Failed to invite friend');
     }
   };

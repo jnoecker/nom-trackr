@@ -43,7 +43,6 @@ const createAndSendToken = (user, statusCode, res) => {
 exports.inviteUser = catchAsync(async (req, res, next) => {
   const referralName = req.body.name;
   const referralEmail = req.body.email;
-  console.log(req.body);
 
   // 1) Check if email and password exist
   if (!referralName || !referralEmail) {

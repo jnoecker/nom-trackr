@@ -19,7 +19,6 @@ const AdminStats = () => {
       });
 
       if (res.data.status === 'success') {
-        console.log(res.data.data);
         const data = res.data.data;
         setThisWeekFoods(data.currentWeekFoodStats[0].totalFoodsAdded);
         setThisWeekCalories(data.currentWeekFoodStats[0].totalCaloriesAdded);

@@ -66,7 +66,6 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
   };
 
   const getNutritionixResults = async (searchString) => {
-    console.log('QUERY: ' + searchString);
     try {
       const res = await axios({
         method: 'GET',
@@ -80,7 +79,6 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
         },
       });
 
-      console.log(JSON.stringify(res));
       setAutoSuggestionsCommon(res.data.common);
       setAutoSuggestionsBranded(res.data.branded);
     } catch (error) {
@@ -108,10 +106,6 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
       });
 
       const calories = res?.data?.foods[0]?.nf_calories || 0;
-      console.log(res.data);
-      console.log(
-        `${foodName} -> ${calories} calories per ${res?.data?.foods[0]?.serving_qty} ${res?.data?.foods[0]?.serving_unit}`
-      );
       setSearchTerm(foodName);
       setNewFoodName(foodName);
       setnewFoodCalories(calories);
@@ -151,10 +145,6 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
       });
 
       const calories = res?.data?.foods[0]?.nf_calories || 0;
-      console.log(res.data);
-      console.log(
-        `${foodName} -> ${calories} calories per ${res?.data?.foods[0]?.serving_qty} ${res?.data?.foods[0]?.serving_unit}`
-      );
       setSearchTerm(foodName);
       setNewFoodName(foodName);
       setnewFoodCalories(calories);
@@ -199,8 +189,6 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
       if (res.data.status === 'success') {
         const newFood = res.data.data;
         alert('Successfully added food');
-        console.log('Added Food');
-        console.log(res.data.data);
         setMyFoods([newFood, ...myFoods]);
         handleHide();
       } else {
@@ -209,7 +197,6 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
       }
     } catch (error) {
       // TODO: AlertError
-      console.log(error);
       alert('Failed to add food');
     }
   };

@@ -23,12 +23,9 @@ const AdminFoodLog = ({ user }) => {
   };
 
   const getData = async () => {
-    console.log('getData()');
     const startSearch = new Date(moment(startDate));
     const endSearch = new Date(moment(endDate));
     endSearch.setDate(endSearch.getDate() + 1);
-    console.log('Start Date ' + startSearch);
-    console.log('End Date: ' + endSearch);
     try {
       const res = await axios({
         method: 'GET',
@@ -40,11 +37,10 @@ const AdminFoodLog = ({ user }) => {
         },
       });
 
-      console.log(res.data.data);
       setAllFoods(res.data.data);
     } catch (error) {
-      // Handle error
-      console.log(error);
+      // TODO: AlertError
+      alert('Error fetching admin food log data');
     }
   };
 

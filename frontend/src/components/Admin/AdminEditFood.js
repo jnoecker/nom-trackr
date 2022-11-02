@@ -53,8 +53,6 @@ const AdminEditFood = ({ food, allFoods, setAllFoods }) => {
 
       if (res.data.status === 'success') {
         alert('Successfully edited food');
-        console.log('Edited Food');
-        console.log(res.data.data.data);
         handleHide();
 
         const newFoods = [...allFoods];
@@ -64,7 +62,7 @@ const AdminEditFood = ({ food, allFoods, setAllFoods }) => {
       } else {
       }
     } catch (error) {
-      console.log(error);
+      // TODO: AlertError
       alert('Failed to edit food');
     }
   };

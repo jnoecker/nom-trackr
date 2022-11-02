@@ -15,7 +15,6 @@ const DailyCalories = ({ user, myFoods }) => {
       });
 
       if (res.data.status === 'success') {
-        console.log(res.data.data);
         const data = res.data.data;
         setDailyCalories(data.caloriesPerDay);
       }

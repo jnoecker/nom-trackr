@@ -25,8 +25,6 @@ const FoodLog = ({ myFoods, setMyFoods }) => {
     const startSearch = new Date(moment(startDate));
     const endSearch = new Date(moment(endDate));
     endSearch.setDate(endSearch.getDate() + 1);
-    console.log('Start Date ' + startSearch);
-    console.log('End Date: ' + endSearch);
     try {
       const res = await axios({
         method: 'GET',
@@ -38,12 +36,11 @@ const FoodLog = ({ myFoods, setMyFoods }) => {
         },
       });
 
-      console.log(res.data.data);
       setMyFoods(res.data.data);
     } catch (error) {
       // Handle error
       // TODO: AlertError
-      console.log(error);
+      alert('Error fetching food journal');
     }
   };
 

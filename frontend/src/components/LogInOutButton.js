@@ -24,11 +24,7 @@ const LoginBox = ({ user, setUser }) => {
         withCredentials: true,
       });
 
-      console.log(res);
       if (res.data.status === 'success') {
-        console.log(res.data.data.user);
-        console.log(event.target);
-        console.log(setUser);
         setUser(res.data.data.user);
         localStorage.setItem('user', JSON.stringify(res.data.data.user));
         handleHide();
@@ -37,7 +33,6 @@ const LoginBox = ({ user, setUser }) => {
     } catch (error) {
       // TODO: AlertError
       alert('Failed to Log In');
-      console.log('error', error);
     }
   };
 
@@ -55,7 +50,8 @@ const LoginBox = ({ user, setUser }) => {
         history.go(0);
       }
     } catch (err) {
-      console.log('error', 'Error logging out');
+      // TODO: AlertError
+      alert('Error logging out');
     }
   };
 

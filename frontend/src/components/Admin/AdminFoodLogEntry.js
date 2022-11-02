@@ -15,7 +15,6 @@ const AdminFoodLogEntry = ({ food, allFoods, setAllFoods }) => {
 
       setAllFoods(
         allFoods.filter((one) => {
-          console.log(one);
           return one._id !== _id;
         })
       );

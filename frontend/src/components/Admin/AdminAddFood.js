@@ -48,15 +48,11 @@ const AdminAddFood = ({ user, allFoods, setAllFoods }) => {
       if (res.data.status === 'success') {
         const newFood = res.data.data;
         alert('Successfully added food');
-        console.log('Added Food');
-        console.log(res.data.data);
-        console.log(allFoods);
         setAllFoods([newFood, ...allFoods]);
       } else {
       }
     } catch (error) {
       // TODO: AlertError
-      console.log(error);
       alert('Failed to add food');
     }
     handleHide();

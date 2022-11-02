@@ -14,7 +14,8 @@ const LogoutButton = ({ user, setUser }) => {
         localStorage.removeItem('user');
       }
     } catch (err) {
-      console.log('error', 'Error logging out');
+      // TODO: AlertError
+      alert('Error logging out');
     }
   };
 
