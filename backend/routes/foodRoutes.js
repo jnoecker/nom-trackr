@@ -14,6 +14,8 @@ router
   .get(foodController.getMyFoods)
   .post(foodController.createMyFood);
 
+router.route('/stats').get(foodController.getCaloriesPerDay);
+
 // router.route('/:id').get(foodController.getOneFood);
 
 /*********************

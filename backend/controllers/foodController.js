@@ -7,6 +7,7 @@ const handlerFactory = require('./handlerFactory');
  ** User Functions **
  ********************/
 exports.createMyFood = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   req.body.createdBy = req.user.id;
   req.body = { ...req.body, createdBy: req.user.id };
   const food = await Food.create(req.body);
@@ -43,6 +44,26 @@ exports.getAFood = handlerFactory.getOne(Food);
 exports.createAFood = handlerFactory.createOne(Food);
 exports.updateAFood = handlerFactory.updateOne(Food);
 exports.deleteAFood = handlerFactory.deleteOne(Food);
+
+exports.getCaloriesPerDay = catchAsync(async (req, res, next) => {
+  const caloriesPerDay = await Food.aggregate([
+    { $match: { createdBy: req.user._id } },
+    {
+      $group: {
+        _id: { $dateToString: { format: '%Y-%m-%d', date: '$consumedAt' } },
+        count: { $sum: '$calories' },
+      },
+    },
+    { $sort: { _id: -1 } },
+  ]);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      caloriesPerDay,
+    },
+  });
+});
 
 // TODO: Clarify whether we should use `createdAt` or `consumedAt` for these statistics.
 exports.getFoodStats = catchAsync(async (req, res, next) => {
@@ -82,6 +103,8 @@ exports.getFoodStats = catchAsync(async (req, res, next) => {
   endDate.setDate(endDate.getDate() - 7);
   startDate.setDate(startDate.getDate() - 7);
   console.log(5);
+  console.log(startDate);
+  console.log(endDate);
   const previousWeekFoodStats = await Food.aggregate([
     { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
     {

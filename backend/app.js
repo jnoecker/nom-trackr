@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 // const hpp = require('hpp');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/appError');
@@ -24,6 +25,13 @@ const app = express();
 // Set security HTTP headers
 // TODO: Customize helmet headers to allow Nutritionix API and probably Google fonts
 app.use(helmet());
+
+// TODO: Only allow CORS from our frontend
+const corsOptions = {
+  origin: 'http://localhost:3001',
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 // Dev Logging
 if (process.env.NODE_ENV === 'development') {
