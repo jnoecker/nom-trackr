@@ -39,6 +39,10 @@ function App() {
           </Route>
         </Switch>
       </div>
+      <footer class="text-center bg-dark text-white">
+        Powered by the{' '}
+        <a href="http://www.nutritionix.com/api">Nutritionix API</a>
+      </footer>
     </Router>
   );
 }
