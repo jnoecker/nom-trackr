@@ -43,7 +43,7 @@ const DailyCalories = ({ user, myFoods }) => {
               <tr key={day._id}>
                 <th>{day._id}</th>
                 <th>
-                  {day.count}{' '}
+                  {Math.round(day.count)}{' '}
                   {day.count <= user?.dailyCalorieLimit ? (
                     ''
                   ) : (

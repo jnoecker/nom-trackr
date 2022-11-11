@@ -4,7 +4,7 @@ const FoodLogEntry = ({ consumedAt, foodName, calories }) => {
     <>
       <th>{moment(consumedAt).format('YYYY-MM-DD hh:mm a')}</th>
       <th className="text-capitalize">{foodName}</th>
-      <th>{calories}</th>
+      <th>{Math.round(calories)}</th>
     </>
   );
 };

@@ -11,7 +11,7 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
+const AutoCompleteBar = ({ foodsChangedToggle, setfoodsChangedToggle }) => {
   const MIN_MS_BETWEEN_CALLS = 500;
   const AUTOCOMPLETE_URL = 'https://trackapi.nutritionix.com/v2/search/instant';
   const COMMON_FOOD_URL =
@@ -191,9 +191,8 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
       });
 
       if (res.data.status === 'success') {
-        const newFood = res.data.data;
         toast.success('Successfully added food');
-        setMyFoods([newFood, ...myFoods]);
+        setfoodsChangedToggle(!foodsChangedToggle);
         handleHide();
       } else {
         toast.error('Failed to add food');
