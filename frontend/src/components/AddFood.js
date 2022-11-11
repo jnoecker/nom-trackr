@@ -129,6 +129,7 @@ const AutoCompleteBar = ({ myFoods, setMyFoods }) => {
   };
 
   const handleClickBranded = async (event) => {
+    event.preventDefault();
     const { target } = event;
     const foodName = target.getAttribute('food-name');
     const foodId = target.getAttribute('food-id');
